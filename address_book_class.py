@@ -8,7 +8,7 @@ class Field:
         self._value = None                                                             
         self.value = value
 
-#-2-setter та getter логіка для атрибутів value спадкоємців Field.
+#---------setter та getter логіка для атрибутів value спадкоємців Field.
     @property                                                                       
     def value(self):                                                               
         return self._value                                                            
@@ -23,7 +23,7 @@ class Name(Field):
 #----------створюємо Клас Phone, необов'язкове поле з телефоном.
 class Phone(Field):
     
- #-2-функціонал перевірки на правильність веденого номера телефону класу Phone.   
+ #-----функціонал перевірки на правильність веденого номера телефону класу Phone.   
     @Field.value.setter                                                             
     def value(self, value):                                                         
         if len(value) < 10 or len(value) > 12: # if not 10 =< len(value) =< 12      
@@ -32,7 +32,7 @@ class Phone(Field):
             raise ValueError("Wrong phonenumber.")                                  
         self._value = value                                                           
 
-#-2------------Додали поле для дня народження Birthday.
+#--------------Додали поле для дня народження Birthday.
 #------------- Це поле не обов'язкове, але може бути тільки одне.
 class Birthday(Field):                                                              
     
@@ -41,7 +41,7 @@ class Birthday(Field):
         today = datetime.now().date()                                               
         birth_date = datetime.strptime(value, "%Y-%m-%d").date()                   
 
-#-2-функціонал перевірки на правильність веденого дня народження класу Birthday.    
+#-------------функціонал перевірки на правильність веденого дня народження класу Birthday.    
         if birth_date > today:                                                      
             raise ValueError("Birthday must be less than current year and date.")   
         self._value = value                                                           
@@ -87,7 +87,7 @@ class Record:
     def add_birthday(self, date):                                                
         self.birthday = Birthday(date)                                            
 
-#-2----функціонал повертає кількість днів до наступного дня народження.
+#------функціонал повертає кількість днів до наступного дня народження.
     def get_days_to_next_birthday(self):                                         
         if not self.birthday:                                                     
             raise ValueError("This contact doesn't have attribute birthday")      
@@ -115,21 +115,27 @@ class AddressBook(UserDict):
 
         self.load_contacts_from_file()
 
+        
     def add_record(self, record):
         self.data[record.name.value] = record
 
+        
     def get_all_record(self):
         return self.data
 
+    
     def has_record(self, name):
         return name in self.data
 
+    
     def get_record(self, name):
         return self.data.get(name)
 
+    
     def remove_record(self, name):
         del self.data[name]
 
+#-------------Функція пошуку вмісту книги контактів        
     def search(self, value):
         record_result = []                                        
         for record in self.get_all_record().values():             
@@ -164,11 +170,12 @@ class AddressBook(UserDict):
         if page:                                                  
             yield page                                           
 
-
+#------функція збереження адресної книги у файл.
     def save_contacts_in_file(self):
         with open("ksm_address_book.pickle", "wb") as file:
             pickle.dump(self.data,file)
 
+#------функція відновлення адресної книги з файлу.
     def load_contacts_from_file(self):
         try:
             with open("ksm_address_book.pickle", "rb") as file:
