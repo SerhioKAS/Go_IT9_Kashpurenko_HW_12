@@ -89,6 +89,7 @@ def del_phone(data):
         return f"Phone {phone} for {name} contact has been deleted."
     return f"{name} contact doesn't have this phonenumber."
 
+#---------------------Функція додавання Дня Народження---------
 @input_error
 def birthday(data):
     name, date = data.strip().split("")
@@ -96,7 +97,7 @@ def birthday(data):
     record.add_birthday(date)
     return f"For {name} you added Birthday {date}"
 
-
+#---------------------Функція визначення наступного Дня Народження---------
 @input_error
 def next_birthday(name):
     name = name.strip()
